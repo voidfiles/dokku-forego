@@ -27,7 +27,7 @@ copy_to_container "$FOREGO_BIN" /app/vendor/forego/bin/forego 755
 echo "       Done"
 
 echo "-----> Injecting forego runner..."
-id=$(cat "$PLUGIN_DIR/lib/runner" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /start")
+id=$(cat "$PLUGIN_DIR/lib/runner" | docker run -i -a stdin $IMAGE /bin/bash -c "rm /exec; cp /start /exec; cat > /start")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
 echo "       Done"
